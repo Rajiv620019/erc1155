@@ -60,4 +60,16 @@ contract MyToken is ERC1155, Ownable, Pausable, ERC1155Burnable, ERC1155Supply {
         require(msg.value == SPECIAL_LIST_MINT * amount, "Enough ethers are not sent");
         mint(id, amount);
     }
+
+    function mint(uint256 id, uint256 amount) internal {
+        require(purchasesPerWallet[msg.sender] <= LIMIT_PER_WALLET, "You have reached your limit");
+        require(totalSupply(id) + amount <= MAX_SUPPLY, "Max tokens have been minted");
+        _mint(msg.sender, id, amount, "");
+        purchasesPerWallet[msg.sender] += amount;
+    }
+
+    function withdraw(address _addr) external onlyOwner {
+        uint256 balance = address(this).balance;
+        payable(_addr).transfer(balance);
+    }
 }
