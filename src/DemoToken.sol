@@ -72,4 +72,27 @@ contract MyToken is ERC1155, Ownable, Pausable, ERC1155Burnable, ERC1155Supply {
         uint256 balance = address(this).balance;
         payable(_addr).transfer(balance);
     }
+
+    function uri(uint256 _id) public view virtual override returns (string memory) {
+        require(exists(_id));
+        return string(abi.encodePacked(super.uri(_id), Strings.toString(_id), ".json"));
+    }
+
+    function mintBatch(address to, uint256[] memory ids, uint256[] memory amounts, bytes memory data)
+        public
+        onlyOwner
+    {
+        _mintBatch(to, ids, amounts, data);
+    }
+
+    function _update(
+        address operator,
+        address from,
+        address to,
+        uint256[] memory ids,
+        uint256[] memory amounts,
+        bytes memory data
+    ) internal override(ERC1155, ERC1155Supply) whenNotPaused {
+        super._update(operator, from, to, ids, amounts, data);
+    }
 }
