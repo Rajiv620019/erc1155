@@ -47,4 +47,17 @@ contract MyToken is ERC1155, Ownable, Pausable, ERC1155Burnable, ERC1155Supply {
             allowList[_addr[i]] = true;
         }
     }
+
+    function publicMint(uint256 id, uint256 amount) public payable onlyOwner {
+        require(s_publicMintIsOpen, "Sorry public mint window is closed");
+        require(msg.value == PUBLIC_MINT * amount, "Enough ethers are not sent");
+        mint(id, amount);
+    }
+
+    function specialListMint(uint256 id, uint256 amount) public payable {
+        require(allowList[msg.sender], "You are not chosen to be special");
+        require(s_specialMintIsOpen, "Sorry special mint window is closed");
+        require(msg.value == SPECIAL_LIST_MINT * amount, "Enough ethers are not sent");
+        mint(id, amount);
+    }
 }
