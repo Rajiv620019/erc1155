@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -12,8 +12,8 @@ contract MyToken is ERC1155, Ownable, Pausable, ERC1155Burnable, ERC1155Supply {
     /**
      * @dev constants
      */
-    uint256 public constant PUBLIC_MINT = 0.02 ether;
-    uint256 public constant SPECIAL_LIST_MINT = 0.01 ether;
+    uint256 public constant PUBLIC_MINT = 0.05 ether;
+    uint256 public constant SPECIAL_LIST_MINT = 0.03 ether;
     uint256 public constant LIMIT_PER_WALLET = 3;
     uint256 public constant MAX_SUPPLY = 20;
 
